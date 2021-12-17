@@ -98,7 +98,7 @@
                             <div class="row">
                                 <div class="container">
                                     <div class="col-lg-8 col-lg-offset-2">
-                                        <img src="https://multimedia.epayco.co/epayco-landing/btns/pagos_procesados_por_epayco_260px_.png" style="margin-top:10px; float:left"> <img src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/epayco/credibancologo.png" height="40px" style="margin-top:10px; float:right">
+                                        <img src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/epayco/pagos_procesados_por_epayco_260px.png" style="margin-top:10px; float:left"> <img src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/epayco/credibancologo.png" height="40px" style="margin-top:10px; float:right">
                                     </div>
                                 </div>
                             </div>
@@ -118,12 +118,13 @@
                     }
                     $(document).ready(function() {
                     //llave publica del comercio
+
                     //Referencia de payco que viene por url
-                    var ref_payco = getQueryParam('ref_payco');
+                    var ref_payco = "{$ref_payco|escape:'htmlall':'UTF-8'}";
                     //Url Rest Metodo get, se pasa la llave y la ref_payco como paremetro
-                    var urlapp = "https://secure.epayco.co/validation/v1/reference/"+ref_payco;
+                    var urlapp = "{$url|unescape: 'html' nofilter}";
                     
-                    $.get(urlapp, function(response,error) {
+                    $.get(urlapp, function(response) {
 
 
                         if (response.success) {

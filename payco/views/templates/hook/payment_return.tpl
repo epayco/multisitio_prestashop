@@ -28,7 +28,7 @@
     <div class="loading"></div>
 </div>
 <p style="text-align: center;" class="epayco-title">
-    <span class="animated-points">Cargando métodos de pago</span>
+    <span class="animated-points">Cargando metodos de pago</span>
    <br><small class="epayco-subtitle"> Si no se cargan automáticamente, de clic en el botón "Pagar con ePayco"</small>
 </p>
 <style>
@@ -150,19 +150,18 @@
 </style>
 
 <form id="epayco_form" style="text-align: center;">
-
     <script src="https://checkout.epayco.co/checkout.js"
         class="epayco-button"
         data-epayco-key="{$public_key}"
         data-epayco-amount="{$total|escape:'htmlall':'UTF-8'}"
         data-epayco-tax="{$iva|escape:'htmlall':'UTF-8'}"
         data-epayco-tax-base="{$baseDevolucionIva|escape:'htmlall':'UTF-8'}"    
-        data-epayco-name="{$descripcion}"
-        data-epayco-description="{$descripcion}"
+        data-epayco-name="{$descripcion|escape:'htmlall':'UTF-8'}"
+        data-epayco-description="{$descripcion|escape:'htmlall':'UTF-8'}"
         data-epayco-currency="{$currency|lower|escape:'htmlall':'UTF-8'}"
         data-epayco-invoice="{$refVenta|escape:'htmlall':'UTF-8'}"
         data-epayco-country="{$iso|lower|escape:'htmlall':'UTF-8'}"
-        data-epayco-test={$merchanttest}
+        data-epayco-test="{$merchanttest}"
         data-epayco-extra1="{$extra1|escape:'htmlall':'UTF-8'}"
         data-epayco-extra2="{$extra2|escape:'htmlall':'UTF-8'}"
         data-epayco-extra3="{$refVenta|escape:'htmlall':'UTF-8'}"
@@ -173,12 +172,18 @@
         data-epayco-name-billing="{$p_billing_name|escape:'htmlall':'UTF-8'} {$p_billing_last_name|escape:'htmlall':'UTF-8'}"
         data-epayco-address-billing="{$p_billing_address|escape:'htmlall':'UTF-8'}"
         data-epayco-lang="{$lang|escape:'htmlall':'UTF-8'}"
-        data-epayco-button="{$url_button|escape:'htmlall':'UTF-8'}"
+        data-epayco-button="{$button_img|escape:'htmlall':'UTF-8'}"
+        data-epayco-mobilephone-billing="{$p_billing_phone|escape:'htmlall':'UTF-8'}"
         data-epayco-autoClick="true"
         >
     </script>
+</form>
 
-</form> 
+    {literal} 
+<script>
+    
+</script>
+    {/literal}
 {else}
 <p class="warning">
   {l s='Hemos notado un problema con tu orden, si crees que es un error puedes contactar a nuestro departamento de Soporte' mod='payco'}

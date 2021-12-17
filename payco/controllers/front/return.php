@@ -43,9 +43,7 @@ class PaycoReturnModuleFrontController extends ModuleFrontController
 			$currency=$_REQUEST['x_currency_code'];
 			$signature=$_REQUEST['x_signature'];
 			$textMode = trim($_REQUEST['x_test_request']);
-			$x_cod_transaction_state= trim($_REQUEST['x_cod_transaction_state']);
-			$x_approval_code = trim($_REQUEST['x_approval_code']);
-		    $payco->PaymentSuccess($extra1,$response,$referencia,$transid,$amount,$currency,$signature,false, $textMode,$x_cod_transaction_state,$x_approval_code);		
+		    $payco->PaymentSuccess($extra1,$response,$referencia,$transid,$amount,$currency,$signature,false, $textMode);		
 		}
 	}
 

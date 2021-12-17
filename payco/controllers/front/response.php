@@ -40,13 +40,8 @@ class PaycoResponseModuleFrontController extends ModuleFrontController
     public function postProcess()
     {
         $payco = new Payco();
-        $history = Tools::getHttpHost(true).__PS_BASE_URI__.'index.php?controller=history';
         $payco->PaymentReturnOnpage();
-        $this->context->smarty->assign(array(
-            'base_url'=> Tools::getHttpHost(true).__PS_BASE_URI__,
-            'history' => $history
-            )
-        );
+        $this->context->smarty->assign('base_url', Tools::getHttpHost(true).__PS_BASE_URI__);
         $this->setTemplate('module:payco/views/templates/front/response.tpl');
     }
     

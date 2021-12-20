@@ -298,6 +298,21 @@ class CreditCard_OrderState extends ObjectModel
             $order_state->add();
             Configuration::updateValue('PAYCO_OS_PAYMENT_TEST', (int)$order_state->id);
         }
+        
+        if (!Configuration::get('PAYCO_PAYMENT_TEST'))
+        {
+            $order_state = new OrderState();
+            foreach (Language::getLanguages() as $language)
+                $order_state->name[$language['id_lang']] = 'Pago aceptado Prueba';
+            $order_state->send_email = true;
+            $order_state->color = '#3498D8';
+            $order_state->hidden = false;
+            $order_state->delivery = false;
+            $order_state->logable = false;
+            $order_state->invoice = false;
+            $order_state->add();
+            Configuration::updateValue('PAYCO_PAYMENT_TEST', (int)$order_state->id);
+        }
 	}
 
 	public static function remove(){
@@ -318,7 +333,8 @@ class CreditCard_OrderState extends ObjectModel
             'PAYCO_OS_EXPIRED_TEST',
             'PAYCO_OS_ABANDONED_TEST',
             'PAYCO_OS_CANCELED_TEST',
-			'PAYCO_OS_PAYMENT_TEST'
+			'PAYCO_OS_PAYMENT_TEST',
+			'PAYCO_PAYMENT_TEST'
 			
 		];
 

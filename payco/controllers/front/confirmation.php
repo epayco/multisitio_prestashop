@@ -53,7 +53,8 @@ class PaycoConfirmationModuleFrontController extends ModuleFrontController
 			$signature=trim($_REQUEST['x_signature']);
 			$confirmation=true;
 			$textMode = trim($_REQUEST['x_test_request']);
-		    $payco->PaymentSuccess($extra1,$response,$referencia,$transid,$amount,$currency,$signature, $confirmation,$textMode);
+			$x_approval_code = trim($_REQUEST['x_approval_code']);
+		    $payco->PaymentSuccess($extra1,$response,$referencia,$transid,$amount,$currency,$signature, $confirmation,$textMode,$x_approval_code);
 		}else{
 			
 		}

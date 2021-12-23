@@ -932,9 +932,12 @@ class Payco extends PaymentModule
                             
                             $history->changeIdOrderState((int)$orderStatusEndId, $order, true); 
                             }
-
+                            if($textMode == "TRUE"){
+                                $history->changeIdOrderState((int)$orderStatusEndId, $order, true); 
+                            }else{
                             $history->changeIdOrderState((int)Configuration::get($state), $order, true);
-                        }
+                        } 
+                    }
                         if(!$keepOn){
                             $history->changeIdOrderState((int)Configuration::get($state), $order, true);
                         }

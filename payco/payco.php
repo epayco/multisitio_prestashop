@@ -843,7 +843,7 @@ class Payco extends PaymentModule
                     $validacionOrderName = true;
                 }
             }
-
+            
         if($x_signature==$signature && $validation) {
             $current_state = $order->current_state;
             
@@ -862,6 +862,7 @@ class Payco extends PaymentModule
                 
                 $history = new OrderHistory();
                 $history->id_order = (int)$order->id;
+
                 if ($payment && $validacionOrderName) {
                     $orderStatus = Db::getInstance()->executeS('
                         SELECT name FROM `' . _DB_PREFIX_ . 'order_state_lang`
@@ -918,7 +919,6 @@ class Payco extends PaymentModule
                         if($test && $orderStatusPreName != "ePayco Pago Rechazado Prueba" || $orderStatusPreName != "ePayco Pago Cancelado Prueba" || $orderStatusPreName != "ePayco Pago Fallido Prueba" ){
                             $keepOn = true;
                         }
-
                         if($keepOn && $orderStatusPreName == "ePayco Pago Rechazado" ){
                             if($x_cod_response == 1){
                                 $orderStatus = Db::getInstance()->executeS('
@@ -929,14 +929,17 @@ class Payco extends PaymentModule
                                     'SELECT * FROM `' . _DB_PREFIX_ . 'order_state_lang` 
                                     WHERE `name` = "' . $orderStatusName . '"'
                             );
-                            
-                            $history->changeIdOrderState((int)$orderStatusEndId, $order, true); 
+                                if($isTestTransaction == "yes"){
+                                    $history->changeIdOrderState((int)$orderStatusEndId, $order, true); 
+                                }
                             }
-                            if($textMode == "TRUE"){
+                            if($textMode == "TRUE" && $x_cod_response != 1){
                                 $history->changeIdOrderState((int)$orderStatusEndId, $order, true); 
                             }else{
-                            $history->changeIdOrderState((int)Configuration::get($state), $order, true);
-                        } 
+                                if($x_cod_response != 1){
+                                    $history->changeIdOrderState((int)Configuration::get($state), $order, true);
+                                } 
+                            } 
                     }
                         if(!$keepOn){
                             $history->changeIdOrderState((int)Configuration::get($state), $order, true);

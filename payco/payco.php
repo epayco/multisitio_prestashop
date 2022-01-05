@@ -793,7 +793,7 @@ class Payco extends PaymentModule
         $orderAmount = floatval($order->getOrdersTotalPaid());
         if($orderAmount == floatval($amount)){
             
-            if($isTestTransaction == "yes"  && $x_approval_code == "000000"){
+            if($isTestTransaction == "yes"){
                $validation = true;  
             }
            
@@ -953,9 +953,12 @@ class Payco extends PaymentModule
             
 
         }else{
-            $history->changeIdOrderState((int)Configuration::get("PS_OS_ERROR"), $order, true);
-             $this->RestoreStock($order, '+');
-             $history->addWithemail(false);
+            if($order->id_cart){
+                $history->changeIdOrderState((int)Configuration::get("PS_OS_ERROR"), $order, true);
+                $this->RestoreStock($order, '+');
+                $history->addWithemail(false);
+            }
+
         }
         if($confirmation){
             header("HTTP/1.1 200 OK");
@@ -971,7 +974,7 @@ class Payco extends PaymentModule
             }
            else{
               
-                 header("location:index.php?controller=history");
+            Tools::redirect(Configuration::get('P_URL_RESPONSE')."?ref_payco=".$old_ref_payco);
               
            }
             

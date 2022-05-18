@@ -679,14 +679,7 @@ class Payco extends PaymentModule
                 $ref_payco=$arr_refpayco[1];
             }
         }
-
-        if(isset($_REQUEST["x_ref_payco"])){
-            $config = Configuration::getMultiple(array('P_CUST_ID_CLIENTE','P_KEY','PUBLIC_KEY','P_TEST_REQUEST'));
-            $public_key=$config["PUBLIC_KEY"];
-            $ref_payco=$_REQUEST["x_ref_payco"];
-            $url ="https://secure.payco.co/restpagos/transaction/response.json?ref_payco=$ref_payco&public_key=".$public_key;
-            $confirmation=false;
-        }
+        
 
         if(isset($_REQUEST["?ref_payco"])!="" || isset($_REQUEST["ref_payco"]) || $ref_payco){
 
@@ -697,13 +690,12 @@ class Payco extends PaymentModule
             if(isset($_REQUEST["ref_payco"])){
                 $ref_payco=$_REQUEST["ref_payco"];
             }
-            if($url==""){
-                $url = 'https://secure.epayco.co/validation/v1/reference/'.$ref_payco;
-            }
+           
+            $url = 'https://secure.epayco.io/validation/v1/reference/'.$ref_payco;
+            
 
         }
         
-
 
         if($ref_payco!="" and $url!=""){
             $responseData = $this->PostCurl($url,false,$this->StreamContext());
@@ -816,7 +808,7 @@ class Payco extends PaymentModule
             SELECT name FROM `' . _DB_PREFIX_ . 'order_state_lang`
             WHERE `id_order_state` = ' . (int)$order->current_state);
             $orderStatusPreName = $orderStatusPre[0]['name'];
-
+            
             if($test == "yes")
             {
                 if(
@@ -863,7 +855,12 @@ class Payco extends PaymentModule
                 $history = new OrderHistory();
                 $history->id_order = (int)$order->id;
 
-                if ($payment && $validacionOrderName) {
+                if ($payment ) {
+                    
+                    if(!$validacionOrderName){
+                     $this->RestoreStock($order, '-');
+                    }
+                  
                     $orderStatus = Db::getInstance()->executeS('
                         SELECT name FROM `' . _DB_PREFIX_ . 'order_state_lang`
                         WHERE `id_order_state` = ' . (int)$config['P_STATE_END_TRANSACTION']);
@@ -874,6 +871,12 @@ class Payco extends PaymentModule
                             'SELECT * FROM `' . _DB_PREFIX_ . 'order_state_lang` 
                             WHERE `name` = "' . $orderStatusName . '"'
                         );
+                        if(!$orderStatusEndId){
+                            $orderStatusEndId = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue(
+                                'SELECT * FROM `' . _DB_PREFIX_ . 'order_state_lang` 
+                            WHERE `name` = "' . $orderStatus[0]['name'] . '"'
+                            );
+                        }
                     }else{
                         $orderStatusName = $orderStatus[0]['name'] . " Prueba";
                         $newOrderName = $orderStatusName;
@@ -953,12 +956,19 @@ class Payco extends PaymentModule
             
 
         }else{
-            if($order->id_cart){
-                $history->changeIdOrderState((int)Configuration::get("PS_OS_ERROR"), $order, true);
-                $this->RestoreStock($order, '+');
-                $history->addWithemail(false);
+            $history = new OrderHistory();
+            $history->id_order = (int)$order->id;
+            if($test == "yes"){
+                if($orderStatusPreName != "ePayco Pago Fallido Prueba"){
+                    $this->RestoreStock($order, '+'); 
+                }
+                 $history->changeIdOrderState((int)Configuration::get("PAYCO_OS_FAILED_TEST"), $order, true);
+            }else{
+               if($orderStatusPreName != "ePayco Pago Fallido"){
+                    $this->RestoreStock($order, '+'); 
+                }
+                 $history->changeIdOrderState((int)Configuration::get("PAYCO_OS_FAILED"), $order, true); 
             }
-
         }
         if($confirmation){
             header("HTTP/1.1 200 OK");
@@ -974,7 +984,7 @@ class Payco extends PaymentModule
             }
            else{
               
-            Tools::redirect(Configuration::get('P_URL_RESPONSE')."?ref_payco=".$old_ref_payco);
+                 header("location:index.php?controller=history");
               
            }
             

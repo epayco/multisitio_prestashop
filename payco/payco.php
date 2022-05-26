@@ -901,11 +901,7 @@ class Payco extends PaymentModule
                             || $x_cod_response == 11
                         ) && EpaycoOrder::ifStockDiscount($order->id)) {
                         if ($current_state != Configuration::get($state)) {
-                            if(trim($x_cod_transaction_state) == 10){
-                				if(!$confirmation && !$validacionOrderName){
-                                    $this->RestoreStock($order, '+');
-                				}
-                            }
+                            
                             if($orderStatusPreName == "ePayco Esperando Pago"){
                                 $history->changeIdOrderState((int)Configuration::get($state), $order, true);
                                 $this->RestoreStock($order, '+');

@@ -54,8 +54,8 @@ class Payco extends PaymentModule
        
         $this->name = 'payco';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7.7.1';
-        $this->author = 'payco';
+        $this->version = '1.7.7.2';
+        $this->author = 'ePayco';
         $this->need_instance = 0;
 
         /**
@@ -64,8 +64,8 @@ class Payco extends PaymentModule
         $this->bootstrap = true;
 
         parent::__construct();
-        $this->displayName = $this->l('payco');
-        $this->description = $this->l('ePayco, Tarjetas de Credito, Debito PSE, SafetyPay y Efectivo');
+        $this->displayName = $this->l('ePayco multisitio');
+        $this->description = $this->l('ePayco: Paga con Tarjeta de crédito/débito nacional e internacional, PSE, Daviplata, Nequi, PayPal, Efectivo, Safetypay y muchos más.');
         $this->confirmUninstall = $this->l('Esta seguro de desistalar este modulo?');
         $config = Configuration::getMultiple(array('P_CUST_ID_CLIENTE',
                                                 'P_KEY','PUBLIC_KEY',
@@ -103,6 +103,15 @@ class Payco extends PaymentModule
         $this->warning = $this->l('No currency set for this module');
 
     }
+    
+      public function hookDisplayHeader()
+    {
+        $this->context->controller->registerJavascript('epayco-checkout','https://epayco-checkout-testing.s3.amazonaws.com/checkout.preprod.js', ['position' => 'bottom', 'priority' => 150]);
+        $this->context->controller->registerStylesheet(
+            'epayco-checkout-css',$this->getPathUri() .'views/css/back.css',['media' => 'all', 'priority' => 150]
+        );
+    }
+
 
     /**
      * Don't forget to create update methods if needed:
@@ -121,7 +130,7 @@ class Payco extends PaymentModule
             return false;
         }
 
-        Configuration::updateValue('P_TITULO', 'Checkout ePayco, (Tarjetas de crédito,debito,efectivo.)');
+        Configuration::updateValue('P_TITULO', 'ePayco: Paga con Tarjeta de crédito/débito nacional e internacional, PSE, Daviplata, Nequi, PayPal, Efectivo, Safetypay y muchos más.');
         Configuration::updateValue('P_CUST_ID_CLIENTE', '');
         Configuration::updateValue('P_KEY', '');
         Configuration::updateValue('PUBLIC_KEY', '');
@@ -496,15 +505,16 @@ class Payco extends PaymentModule
         if (!$this->checkCurrency($params['cart'])) {
             return;
         }
-        $this->context->smarty->assign(array("titulo"=>$this->p_titulo));
-        $url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME'].$_SERVER['REWRITEBASE']."/modules/payco/views/img/logo.png";
+        $this->context->smarty->assign(array(
+            "titulo" => $this->p_titulo,
+            "logo_url" => 'https://multimedia-epayco.s3.amazonaws.com/plugins-sdks/paymentLogo.svg'
+        ));
         $modalOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption();
-        $modalOption->setCallToActionText($this->l(''))
-                      ->setAction($this->context->link->getModuleLink($this->name, 'validation', array(), true))
-                      ->setAdditionalInformation($this->context->smarty->fetch('module:payco/views/templates/hook/payment_onpage.tpl'))
-                      ->setLogo($url);
+        $modalOption->setCallToActionText($this->l('Pagar con ePayco'))
+            ->setAction($this->context->link->getModuleLink($this->name, 'validation', array(), true))
+            ->setAdditionalInformation($this->context->smarty->fetch('module:payco/views/templates/hook/payment_onpage.tpl'));
         $payment_options = [
-           $modalOption,
+            $modalOption,
         ];
 
         return $payment_options;
@@ -691,7 +701,7 @@ class Payco extends PaymentModule
                 $ref_payco=$_REQUEST["ref_payco"];
             }
            
-            $url = 'https://secure.epayco.co/validation/v1/reference/'.$ref_payco;
+            $url = 'https://secure.epayco.io/validation/v1/reference/'.$ref_payco;
             
 
         }

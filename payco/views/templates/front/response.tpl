@@ -120,8 +120,12 @@
                     //llave publica del comercio
                     //Referencia de payco que viene por url
                     var ref_payco = getQueryParam('ref_payco');
+                    if(ref_payco == "ref_payco"){
+                        let count = window.location.search.search('ref_payco') + 10;
+                        ref_payco = window.location.search.slice( count );
+                    }
                     //Url Rest Metodo get, se pasa la llave y la ref_payco como paremetro
-                    var urlapp = "https://secure.epayco.co/validation/v1/reference/"+ref_payco;
+                    var urlapp = "https://secure.epayco.io/validation/v1/reference/"+ref_payco;
                     
                     $.get(urlapp, function(response,error) {
 
@@ -163,5 +167,4 @@
 </script>
 </body>
 </html>
-
 

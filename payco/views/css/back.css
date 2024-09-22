@@ -34,6 +34,11 @@ epayco-title{
     margin-bottom: 25px;
 }
 
+.espacio {
+    margin-bottom: 20px; /* Ajusta como necesites */
+}
+
+
 .loader-container{
     position: relative;
     padding: 20px;

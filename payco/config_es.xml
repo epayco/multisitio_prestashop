@@ -4,8 +4,8 @@
     <displayName><![CDATA[ePayco multisitio]]></displayName>
     <version><![CDATA[1.7.0.1<]]></version>
     <description><![CDATA[ePayco: Paga con Tarjeta de crédito/débito nacional e internacional, PSE, Daviplata, Nequi, PayPal, Efectivo, Safetypay y muchos más.]]></description>
-    <author><![CDATA[ePayco]]></author>
-    <tab><![CDATA[payments_gateways]]></tab>
+	<author><![CDATA[ePayco]]></author>
+	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Esta seguro de desistalar este modulo?]]></confirmUninstall>
     <is_configurable>1</is_configurable>
     <need_instance>0</need_instance>

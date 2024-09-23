@@ -57,13 +57,8 @@ class Payco extends PaymentModule
 
         $this->name = 'payco';
         $this->tab = 'payments_gateways';
-<<<<<<< HEAD
         $this->version = '1.7.0.1';
         $this->author = 'ePayco';
-=======
-        $this->version = '1.9.5.0';
-        $this->author = 'payco';
->>>>>>> origin/develop
         $this->need_instance = 0;
 
         /**
@@ -75,7 +70,6 @@ class Payco extends PaymentModule
         $this->displayName = $this->l('ePayco multisitio');
         $this->description = $this->l('ePayco: Paga con Tarjeta de crédito/débito nacional e internacional, PSE, Daviplata, Nequi, PayPal, Efectivo, Safetypay y muchos más.');
         $this->confirmUninstall = $this->l('Esta seguro de desistalar este modulo?');
-<<<<<<< HEAD
         $config = Configuration::getMultiple(array(
             'P_CUST_ID_CLIENTE',
             'P_KEY',
@@ -90,25 +84,11 @@ class Payco extends PaymentModule
             'P_URL_RESPONSE',
             'P_URL_CONFIRMATION'
         ));
-=======
-        $config = Configuration::getMultiple(array('P_CUST_ID_CLIENTE',
-                                                'P_KEY','PUBLIC_KEY','PRIVATE_KEY',
-                                                'P_TEST_REQUEST',
-                                                'LENGUAJE',
-                                                'P_TITULO',
-                                                'P_TYPE_CHECKOUT',
-                                                'P_STATE_END_TRANSACTION',
-                                                'P_REDUCE_STOCK_PENDING',
-                                                'P_URL_RESPONSE',
-                                                'P_URL_CONFIRMATION'
-                                                ));
->>>>>>> origin/develop
         if (isset($config['P_CUST_ID_CLIENTE']))
             $this->p_cust_id_cliente = trim($config['P_CUST_ID_CLIENTE']);
         if (isset($config['P_KEY']))
             $this->p_key = trim($config['P_KEY']);
         if (isset($config['PUBLIC_KEY']))
-<<<<<<< HEAD
             $this->public_key = trim($config['PUBLIC_KEY']);
         if (isset($config['PRIVATE_KEY']))
             $this->private_key = trim($config['PRIVATE_KEY']);
@@ -116,15 +96,6 @@ class Payco extends PaymentModule
             $this->p_test_request = $config['P_TEST_REQUEST'];
         if (isset($config['LENGUAJE']))
             $this->lenguaje = $config['LENGUAJE'];
-=======
-            $this->public_key = trim($config['PUBLIC_KEY']); 
-        if (isset($config['PRIVATE_KEY']))
-            $this->private_key = trim($config['PRIVATE_KEY']);      
-        if (isset($config['P_TEST_REQUEST']))
-            $this->p_test_request = $config['P_TEST_REQUEST'];
-        if (isset($config['LENGUAJE']))
-            $this->lenguaje = $config['LENGUAJE'];          
->>>>>>> origin/develop
         if (isset($config['P_TITULO']))
             $this->p_titulo = trim($config['P_TITULO']);
         if (isset($config['P_TYPE_CHECKOUT']))
@@ -374,11 +345,7 @@ class Payco extends PaymentModule
                     ),
                     array(
                         'type' => 'radio',
-<<<<<<< HEAD
                         'label' => $this->trans('Idioma del checkout', array(), 'Modules.Payment.Admin'),
-=======
-                        'label'=> $this->trans('Idioma del checkout', array(), 'Modules.Payment.Admin'),
->>>>>>> origin/develop
                         'name' => "LENGUAJE",
                         'is_bool' => true,
                         'values' => array(
@@ -494,7 +461,6 @@ class Payco extends PaymentModule
         );
     }
 
-<<<<<<< HEAD
     private function postValidation()
     {
         if (Tools::isSubmit('btnSubmit')) {
@@ -507,19 +473,6 @@ class Payco extends PaymentModule
             if (!Tools::getValue('PRIVATE_KEY'))
                 $this->_postErrors[] = $this->l('\'PRIVATE_KEY\' Campo Requerido.');
         }
-=======
-    private function postValidation() {
-      if (Tools::isSubmit('btnSubmit')) {
-        if (!Tools::getValue('P_CUST_ID_CLIENTE'))
-          $this->_postErrors[] = $this->l('\'P_CUST_ID_CLIENTE\' Campo Requerido.');
-        if (!Tools::getValue('P_KEY'))
-          $this->_postErrors[] = $this->l('\'P_KEY\' Campo Requerido.');
-        if (!Tools::getValue('PUBLIC_KEY'))
-          $this->_postErrors[] = $this->l('\'PUBLIC_KEY\' Campo Requerido.');
-          if (!Tools::getValue('PRIVATE_KEY'))
-          $this->_postErrors[] = $this->l('\'PRIVATE_KEY\' Campo Requerido.');
-      }
->>>>>>> origin/develop
     }
 
 
@@ -562,13 +515,8 @@ class Payco extends PaymentModule
     }
 
     /**
-<<<<<<< HEAD
      * Add the CSS & JavaScript files you want to be loaded in the BO.
      */
-=======
-    * Add the CSS & JavaScript files you want to be loaded in the BO.
-    */
->>>>>>> origin/develop
     public function hookDisplayBackOfficeHeader()
     {
         if (Tools::getValue('module_name') == $this->name) {
@@ -582,13 +530,8 @@ class Payco extends PaymentModule
      */
     public function hookHeader()
     {
-<<<<<<< HEAD
         $this->context->controller->addJS($this->_path . '/views/js/front.js');
         $this->context->controller->addCSS($this->_path . '/views/css/back.css');
-=======
-        $this->context->controller->addJS($this->_path.'/views/js/front.js');
-        $this->context->controller->addCSS($this->_path.'/views/css/back.css');
->>>>>>> origin/develop
     }
 
     /**
@@ -620,15 +563,10 @@ class Payco extends PaymentModule
         if (!$this->checkCurrency($params['cart'])) {
             return;
         }
-<<<<<<< HEAD
         $this->context->smarty->assign(array(
             "titulo" => $this->p_titulo,
             "logo_url" => 'https://multimedia-epayco.s3.amazonaws.com/plugins-sdks/paymentLogo.svg'
         ));
-=======
-        $this->context->smarty->assign(array("titulo"=>$this->p_titulo));
-        $url = "https://multimedia.epayco.co/epayco-landing/btns/epayco-logo-fondo-oscuro-lite.png";
->>>>>>> origin/develop
         $modalOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption();
         $modalOption->setCallToActionText($this->l('Pagar con ePayco'))
             ->setAction($this->context->link->getModuleLink($this->name, 'validation', array(), true))
@@ -696,7 +634,6 @@ class Payco extends PaymentModule
                 $test = "false";
             }
 
-<<<<<<< HEAD
             if ($this->lenguaje == 1) {
                 $lenguaje = "es";
             } else {
@@ -707,18 +644,6 @@ class Payco extends PaymentModule
                 $external = "false";
             } else {
                 $external = "true";
-=======
-            if($this->lenguaje==1){
-                $lenguaje="es";
-              }else{
-                $lenguaje="en";
-              }
-            
-            if($this->p_type_checkout==1){
-              $external="false";
-            }else{
-              $external="true";
->>>>>>> origin/develop
             }
 
             $descripcion = '';
@@ -748,22 +673,14 @@ class Payco extends PaymentModule
             $p_url_response = !empty($this->p_url_response) ? $this->p_url_response : Context::getContext()->link->getModuleLink('payco', 'response');
             $p_url_confirmation = !empty($this->p_url_confirmation) ? $this->p_url_confirmation : Context::getContext()->link->getModuleLink('payco', 'confirmation');
             $lang = $this->context->language->language_code;
-<<<<<<< HEAD
             if ($lang == "es") {
                 $url_button = "https://multimedia-epayco.s3.amazonaws.com/plugins-sdks/Boton-color-espanol.png";
             } else {
                 $url_button = "https://multimedia-epayco.s3.amazonaws.com/plugins-sdks/Boton-color-Ingles.png";
-=======
-            if($lang == "es"){
-                $url_button = "https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color1.png";
-            }else{
-                $url_button = "https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color-Ingles.png";
->>>>>>> origin/develop
                 $lang = "en";
                 
             }
             $myIp = $this->getCustomerIp();
-<<<<<<< HEAD
             $this->smarty->assign(
                 array(
                     'this_path_bw' => $this->_path,
@@ -808,52 +725,6 @@ class Payco extends PaymentModule
         $this->context->controller->addCSS($this->_path . '/views/css/back.css');
         //redirige al checkout
         //luego al controlador response.php
-=======
-            $this->smarty->assign(array(
-              'this_path_bw' => $this->_path,
-              'p_signature' => $p_signature,
-              'total_to_pay' => Tools::displayPrice($value, $currence, false),
-              'status' => 'ok',
-              'refVenta' => $refVenta,
-              'custemail' => $emailComprador,
-              'extra1' => $extra1,
-              'extra2' => $extra2,
-              'total' => $value,
-              'currency' => $currency,
-              'iso' => $iso,
-              'iva' => $iva,
-              'baseDevolucionIva' => $valorBaseDevolucion,
-              'merchantid' => trim($this->p_cust_id_cliente),
-              'external'=>$external,
-              'merchanttest'=> $test,
-              'p_key'=>trim($this->p_key),
-              'public_key'=>trim($this->public_key),
-              'private_key'=>trim($this->private_key),
-              'custip' => $_SERVER['REMOTE_ADDR'],
-              'custname' => $this->context->customer->firstname." ".$this->context->customer->lastname,
-              'p_url_response' => $p_url_response,
-              'p_url_confirmation' => $p_url_confirmation,
-              'p_billing_email' => $this->context->customer->email,
-              'p_billing_name' => $this->context->customer->firstname,
-              'p_billing_last_name' => $this->context->customer->lastname,
-              'p_billing_address'=>$addressdelivery->address1 . " " . $addressdelivery->address2,
-              'p_billing_city'=>$addressdelivery->city,
-              'p_billing_country'=>$addressdelivery->id_state,
-              'p_billing_phone'=>"",
-              'lang' => $lenguaje,
-              'descripcion' => $descripcion,
-              'url_button' => $url_button,
-              'ip' => $myIp
-              )
-            );
-
-          } else {
-              $this->smarty->assign('status', 'failed');
-          }
-        $this->context->controller->addCSS($this->_path.'/views/css/back.css');
-          //redirige al checkout
-          //luego al controlador response.php
->>>>>>> origin/develop
         return $this->display(__FILE__, 'views/templates/hook/payment_return.tpl');
     }
 
@@ -875,7 +746,6 @@ class Payco extends PaymentModule
         return false;
     }
 
-<<<<<<< HEAD
     private function getCustomerIp()
     {
         $ipaddress = '';
@@ -892,33 +762,11 @@ class Payco extends PaymentModule
         else if (isset($_SERVER['HTTP_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_FORWARDED'];
         else if (isset($_SERVER['REMOTE_ADDR']))
-=======
-    private function getCustomerIp(){
-        $ipaddress = '';
-        if (isset($_SERVER['HTTP_CLIENT_IP']))
-            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED']))
-            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-            $ipaddress = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))
-            $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))
->>>>>>> origin/develop
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
     }
-<<<<<<< HEAD
-=======
-
-    public function PaymentReturnOnpage(){
->>>>>>> origin/develop
 
     public function PaymentReturnOnpage()
     {
@@ -945,14 +793,8 @@ class Payco extends PaymentModule
             if (isset($_REQUEST["ref_payco"])) {
                 $ref_payco = $_REQUEST["ref_payco"];
             }
-<<<<<<< HEAD
 
             $url = 'https://secure.epayco.io/validation/v1/reference/' . $ref_payco;
-=======
-           
-            $url = 'https://secure.epayco.io/validation/v1/reference/'.$ref_payco;
-            
->>>>>>> origin/develop
         }
 
 

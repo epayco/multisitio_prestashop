@@ -25,7 +25,7 @@
 * Don't forget to prefix your containers with your own identifier
 * to avoid any conflicts with others containers.
 */
-epayco-title{
+.epayco-title{
     max-width: 900px;
     display: block;
     margin:auto;
@@ -33,11 +33,6 @@ epayco-title{
     font-weight: 700;
     margin-bottom: 25px;
 }
-
-.espacio {
-    margin-bottom: 20px; /* Ajusta como necesites */
-}
-
 
 .loader-container{
     position: relative;

@@ -127,16 +127,7 @@ class Payco extends PaymentModule
         );
     }
 
-    /**
-     * @return void
-     */
-    public function hookDisplayHeader()
-    {
-        $this->context->controller->registerJavascript('epayco-checkout','https://epayco-checkout-testing.s3.amazonaws.com/checkout.preprod.js', ['position' => 'bottom', 'priority' => 150]);
-        $this->context->controller->registerStylesheet(
-            'epayco-checkout-css',$this->getPathUri() .'views/css/back.css',['media' => 'all', 'priority' => 150]
-        );
-    }
+
 
     /**
      * Don't forget to create update methods if needed:

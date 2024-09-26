@@ -797,18 +797,18 @@ class Payco extends PaymentModule
             $data["ref_payco"] = $ref_payco;
             $data["url"] = $url;
 
-            $this->Acentarpago($data["x_extra1"], $data["x_cod_response"], $data["x_ref_payco"], $data["x_transaction_id"], $data["x_amount"], $data["x_currency_code"], $data["x_signature"], $confirmation, $data["x_test_request"], $data["x_cod_transaction_state"], $ref_payco, $data["x_approval_code"]);
+            $this->Acentarpago($data["x_extra1"], $data["x_cod_response"], $data["x_ref_payco"], $data["x_transaction_id"], $data["x_amount"], $data["x_currency_code"], $data["x_signature"], $confirmation, $data["x_test_request"], $data["x_cod_transaction_state"], $ref_payco, $data["x_approval_code"], $data["x_extra2"]);
             $this->context->smarty->assign($data);
         }
     }
 
-    public function PaymentSuccess($extra1, $response, $referencia, $transid, $amount, $currency, $signature, $confirmation, $textMode, $x_cod_transaction_state, $ref_payco, $x_approval_code)
+    public function PaymentSuccess($extra1, $response, $referencia, $transid, $amount, $currency, $signature, $confirmation, $textMode, $x_cod_transaction_state, $ref_payco, $x_approval_code, $extra2)
     {
-        $this->Acentarpago($extra1, $response, $referencia, $transid, $amount, $currency, $signature, $confirmation, $textMode, $x_cod_transaction_state, $ref_payco, $x_approval_code);
+        $this->Acentarpago($extra1, $response, $referencia, $transid, $amount, $currency, $signature, $confirmation, $textMode, $x_cod_transaction_state, $ref_payco, $x_approval_code,$extra2);
     }
 
 
-    private function Acentarpago($extra1, $response, $referencia, $transid, $amount, $currency, $signature, $confirmation, $textMode, $x_cod_transaction_state, $old_ref_payco, $x_approval_code)
+    private function Acentarpago($extra1, $response, $referencia, $transid, $amount, $currency, $signature, $confirmation, $textMode, $x_cod_transaction_state, $old_ref_payco, $x_approval_code,$extra2)
     {
 
         $config = Configuration::getMultiple(array('P_CUST_ID_CLIENTE', 'P_KEY', 'PUBLIC_KEY', 'P_TEST_REQUEST', 'P_STATE_END_TRANSACTION'));
@@ -868,6 +868,15 @@ class Payco extends PaymentModule
         }
 
         $order = new Order((int)Order::getOrderByCartId((int)$idorder));
+        if(isset($order->current_state)){
+            $current_state=$order->current_state;
+        }else{
+            $order = new Order((int)$extra2);
+            if(isset($order->current_state)){
+                $current_state=$order->current_state;
+            }
+        }
+
         $keepOn = false;
         if ($this->p_test_request == 1) {
             $test = "yes";
@@ -876,6 +885,7 @@ class Payco extends PaymentModule
         }
         $isTestTransaction = $textMode == 'TRUE' ? "yes" : "no";
         $orderAmount = floatval($order->getOrdersTotalPaid());
+        
         if ($orderAmount == floatval($amount)) {
 
             if ($isTestTransaction == "yes") {
@@ -897,7 +907,7 @@ class Payco extends PaymentModule
         }
         $orderStatusPre = Db::getInstance()->executeS('
         SELECT name FROM `' . _DB_PREFIX_ . 'order_state_lang`
-        WHERE `id_order_state` = ' . (int)$order->current_state);
+        WHERE `id_order_state` = ' . (int)$current_state);
         $orderStatusPreName = $orderStatusPre[0]['name'];
 
         if ($test == "yes") {
@@ -928,7 +938,7 @@ class Payco extends PaymentModule
 
 
         if ($x_signature == $signature && $validation) {
-            $current_state = $order->current_state;
+            $current_state = $current_state;
 
             if (!EpaycoOrder::ifStockDiscount($order->id)) {
                 EpaycoOrder::updateStockDiscount($order->id, 1);

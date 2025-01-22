@@ -22,12 +22,12 @@
 
 ## Instalación
 
-1. [Descarga el plugin.](https://github.com/epayco/multisitio_prestashop/releases/tag/v1.7.0.1)
-2. Ingresa a tu administrador de PrestaShop.
-3. Ve a Módulos y Servicios.
-4. Carga el plugin en PrestaShop.
-5. Busca el plugin ePayco en la lista de módulos.
-6. Haz clic en Instalar.
-7. Haz clic en Seguir con la Instalación.
+1. [Descarga el plugin.](https://github.com/epayco/multisitio_prestashop/releases/tag/v1.7.0.1).
+2. Descomprimir el archivo descargado y luego comprimes la carpeta llamada payco.
+3. Ingresa al administrador de PrestaShop.
+4. Navega a **Módulos y Servicios**.
+5. Carga el plugin en PrestaShop.
+6. Busca el plugin ePayco en la lista de módulos.
+7. Haz clic en configuración.
 8. Ingresa al panel de clientes de ePayco para obtener el **P_CUST_ID_CLIENTE**, **P_KEY**, **PUBLIC_KEY** y **PRIVATE_KEY**.
 9. Por último, configura el plugin de ePayco ingresando los datos del formulario.

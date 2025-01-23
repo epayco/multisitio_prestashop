@@ -24,10 +24,11 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
-<img src="https://multimedia-epayco.s3.amazonaws.com/plugins-sdks/logo.png"/>
+<img src= "{constant('_EPAYCO_MULTIMEDIA_URL_')}/plugins-sdks/Boton-color-espanol.png" />
+
 <br/>
 <div class="alert alert-info">
-<p><strong>{l s='Este módulo le permite aceptar pagos seguros por la plataforma de pagos ePayco.' mod='payco'}</strong></p>
-<p>{l s='Si el cliente decide pagar por ePayco, el estado del pedido cambiará a ePayco Esperando Pago' mod='payco'}</p>
-<p>{l s='Cuando el pago sea Aceptado o Rechazado ePayco envia una confirmación a la tienda para cambiar el estado del pedido' mod='payco'}</p>
+<p><strong>{l s='Este modulo le permite aceptar pagos seguros por la plataforma de pagos ePayco.' mod='payco'}</strong></p>
+<p>{l s='Si el cliente decide pagar por ePayco, el estado del pedido cambiara a ePayco Esperando Pago' mod='payco'}</p>
+<p>{l s='Cuando el pago sea Aceptado o Rechazado ePayco envia una confirmacion a la tienda para cambiar el estado del pedido' mod='payco'}</p>
 </div>

@@ -44,7 +44,6 @@ class PaycoConfirmationModuleFrontController extends ModuleFrontController
 		if (isset($_REQUEST['x_cod_response']))
 		{	
 			$extra1=trim($_REQUEST['x_extra1']);
-			$extra2=trim($_REQUEST['x_extra2']);
 			$response=trim($_REQUEST['x_cod_response']);
 			$referencia=trim($_REQUEST['x_ref_payco']);
 			$transid=trim($_REQUEST['x_transaction_id']);
@@ -55,7 +54,8 @@ class PaycoConfirmationModuleFrontController extends ModuleFrontController
 			$x_test_request=trim($_REQUEST['x_test_request']);
 			$x_cod_transaction_state= trim($_REQUEST['x_cod_transaction_state']);
 			$x_approval_code = trim($_REQUEST['x_approval_code']);
-		    $payco->PaymentSuccess($extra1,$response,$referencia,$transid,$amount,$currency,$signature, $confirmation,$x_test_request,$x_cod_transaction_state,0,$x_approval_code,$extra2);
+			$x_franchise=trim($_REQUEST['x_franchise']);
+		    $payco->PaymentSuccess($extra1,$response,$referencia,$transid,$amount,$currency,$signature, $confirmation,$x_test_request,$x_cod_transaction_state,0,$x_approval_code,$x_franchise);
 		}else{
 			
 		}
